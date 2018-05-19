@@ -1,0 +1,6 @@
+- onCreateメソッド内のsetContentViewメソッドにXMLを指定する。
+- インテントを作成->遷移先を指定->インテントを送るというのが画面遷移の基本的な流れ
+- onClickの最後はstartActivity(intent)で終わることが多いっぽい
+- intentを送る場合も受ける場合も、まずは空のintentを生成しない（データを受け取らない場合は生成しない）
+- インテントを送る時はデータの型気にしなくていいけど、受ける時は気にしてメソッドを変えないといけない。getIntExtraとかgetShortArrayExtraとか。
+- getStringExtra等のインテントからデータを取り出すメソッドがnullを返す可能性がある場合、必ずnullチェックをしてNullPointerExceptionを避ける。
