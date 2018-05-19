@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final String packageName = getPackageName();
+
         Button bt_toSub = (Button)findViewById(R.id.button_toSub);
         bt_toSub.setOnClickListener(new View.OnClickListener()
         {
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName() + ".SubActivity");
+                intent.setClassName(packageName, packageName + ".SubActivity");
                 startActivity(intent);
             }
         });
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClassName(getPackageName(), getPackageName() + ".SubActivity");
+                intent.setClassName(packageName, packageName + ".SubActivity");
 
                 EditText et_message = (EditText)findViewById(R.id.editText_message);
                 String message = et_message.getText().toString();
