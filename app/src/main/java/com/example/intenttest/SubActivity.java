@@ -14,6 +14,8 @@ public class SubActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("message");
-        Toast.makeText(SubActivity.this, message, Toast.LENGTH_LONG).show();
+        if(message != null && message.length() > 0) {
+            Toast.makeText(SubActivity.this, message, Toast.LENGTH_LONG).show();
+        }
     }
 }

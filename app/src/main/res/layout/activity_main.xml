@@ -41,7 +41,6 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:maxLines="1"
-                android:text="Name"
                 tools:layout_width="0dp"
                 tools:singleLine="true" />
 
