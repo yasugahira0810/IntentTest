@@ -1,11 +1,14 @@
 package com.example.intenttest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final WebView webview = new WebView(this);
 
         final String packageName = getPackageName();
+
 
         Button bt_toSub = (Button)findViewById(R.id.button_toSub);
         bt_toSub.setOnClickListener(new View.OnClickListener()
@@ -38,14 +43,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClassName(packageName, packageName + ".SubActivity");
-
-                EditText et_message = (EditText)findViewById(R.id.editText_message);
+                EditText et_message = (EditText) findViewById(R.id.editText_message);
                 String message = et_message.getText().toString();
-                intent.putExtra("message", message);
-
-                startActivity(intent);
+                if (message.length() >= 2) {
+                    intent.setClassName(packageName, packageName + ".SubActivity");
+                    intent.putExtra("message", message);
+                    startActivity(intent);
+                } else {
+                    aintent.setClassName(packageName, packageName + ".LoadActivity");
+                    startActivityForResult(intent, 0);
+                }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("**1**");
+        if(resultCode == Activity.RESULT_OK) {
+            String errMsg = data.getStringExtra("errMsg");
+            Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
+        }
     }
 }
