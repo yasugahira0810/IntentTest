@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -12,10 +13,20 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final String TAG = "MainActivity";
+
+    private void myLog(String tag, String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Log.d(tag, msg);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myLog(TAG, "***** onCreate *****");
+
         final WebView webview = new WebView(this);
 
         final String packageName = getPackageName();
@@ -50,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("message", message);
                     startActivity(intent);
                 } else {
-                    aintent.setClassName(packageName, packageName + ".LoadActivity");
+                    intent.setClassName(packageName, packageName + ".LoadActivity");
                     startActivityForResult(intent, 0);
                 }
             }
@@ -59,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("**1**");
+
+        myLog(TAG, "***** onActivityResult *****");
+
         if(resultCode == Activity.RESULT_OK) {
             String errMsg = data.getStringExtra("errMsg");
             Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
