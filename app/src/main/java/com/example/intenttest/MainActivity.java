@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.Normalizer;
+
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
@@ -56,9 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 EditText et_message = (EditText) findViewById(R.id.editText_message);
                 String message = et_message.getText().toString();
-                if (message.length() >= 2) {
+                String normalizedMsg = normalize(message);
+                if (normalizedMsg.length() >= 2 && normalizedMsg.length() <= 20) {
                     intent.setClassName(packageName, packageName + ".SubActivity");
-                    intent.putExtra("message", message);
+                    intent.putExtra("message", normalizedMsg);
                     startActivity(intent);
                 } else {
                     intent.setClassName(packageName, packageName + ".LoadActivity");
@@ -77,5 +80,10 @@ public class MainActivity extends AppCompatActivity {
             String errMsg = data.getStringExtra("errMsg");
             Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    protected String normalize(String txt) {
+        String normalizedTxt = Normalizer.normalize(txt, Normalizer.Form.NFKC);
+        return normalizedTxt;
     }
 }
