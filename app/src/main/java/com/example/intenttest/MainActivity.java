@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void executeSearch(String message, String packageName) {
+    private void executeSearch(String normalizedMsg, String packageName) {
         Intent intent = new Intent();
         if (normalizedMsg.length() >= 2 && normalizedMsg.length() <= 20) {
             intent.setClassName(packageName, packageName + ".SubActivity");
-            intent.putExtra("message", message);
+            intent.putExtra("message", normalizedMsg);
             startActivity(intent);
         } else {
             intent.setClassName(packageName, packageName + ".LoadActivity");
