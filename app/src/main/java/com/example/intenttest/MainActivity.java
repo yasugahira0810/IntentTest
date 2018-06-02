@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.Normalizer;
+
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
@@ -53,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         EditText et_message = (EditText) findViewById(R.id.editText_message);
-        final String message = et_message.getText().toString();
+        String message = et_message.getText().toString();
+        final String normalizedMsg = normalize(message);
 
         et_message.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                     //検索処理
-                    executeSearch(message, packageName);
+                    executeSearch(normalizedMsg, packageName);
 
                 }
                 return false;
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         bt_toSub2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                executeSearch(message, packageName);
+                executeSearch(normalizedMsg, packageName);
             }
 
         });
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void executeSearch(String message, String packageName) {
         Intent intent = new Intent();
-        if (message.length() >= 2) {
+        if (normalizedMsg.length() >= 2 && normalizedMsg.length() <= 20) {
             intent.setClassName(packageName, packageName + ".SubActivity");
             intent.putExtra("message", message);
             startActivity(intent);
@@ -107,5 +110,10 @@ public class MainActivity extends AppCompatActivity {
             String errMsg = data.getStringExtra("errMsg");
             Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    protected String normalize(String txt) {
+        String normalizedTxt = Normalizer.normalize(txt, Normalizer.Form.NFKC);
+        return normalizedTxt;
     }
 }
